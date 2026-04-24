@@ -82,8 +82,11 @@ CHECK
     not r1, r1
     add r1, r1, #1
     add r1, r0, r1 
+    add r0, r0, #9
     BRz QUIT
 
+    ; illegal command return -1 in r0
+    add r0, r0, #-1
 
     BR CHECK 
 
@@ -162,6 +165,23 @@ cl_r1   .blkw 1
 cl_r2   .blkw 1
 origin  .fill xc000
 num_px  .fill 15872
+
+; --- required subroutines ---
+
+getmov
+        ; used to get the next move from a player
+        getc 
+        puts
+        BR check 
+
+drawh 
+        ; draw a horizontal line starting at (0,y) where y is passed in r0
+
+drawv
+        ; draw a vertical line starting at (x,o) where x is passed in r0
+
+drawb 
+        ; draws a 20x20 block of pixels 
 
 
 ; variable instantiation 
