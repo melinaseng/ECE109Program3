@@ -2,6 +2,36 @@
 
 START
     ; clear 
+    jsr clear
+
+    ; draw the vertical lines 
+    and r0, r0, #0
+    add r0, r0, #30
+    jsr drawv
+
+    and r0, r0, #0
+    add r0, r0, #60
+    jsr drawv
+
+    ; draw the horizontal lines
+    and r0, r0, #0
+    add r0, r0, #30
+    jsr drawh
+
+    and r0, r0, #0
+    add r0, r0, #60
+    jsr drawh
+
+    ; cell stuff
+    ld r0, cell
+    and r1, r1, #0
+    and r2, r2, #0
+    and r2, r2, #9 ; loop it 9 times 
+clear_cells
+    str r1, r0, #0
+    add r0, r0, #1
+    add r2, r2, #-1
+    BRp clear_cells
 
 QUIT 
     HALT
@@ -101,8 +131,12 @@ gm_check_q
         BR gm_done
 
 gm_illegal
+        and r0, r0, #0
+        add r0, r0, #-1
 
-
+gm_done
+        ld r1, saver1
+        ld r2, saver2
         ret 
 
 drawh 
@@ -116,6 +150,8 @@ drawb
 
 
 ; variable instantiation 
+nine .fill #9
+cell .fill x4010
 saver1 .blkw #1
 saver2 .blkw #1
 gm_input .blkw #1
