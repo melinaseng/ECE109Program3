@@ -34,24 +34,18 @@ x_player
     puts
     jsr getmov
 
+    add r1, r0, #0
+
     BRn x_player
 
-    st r0, saver 
-    add r1, r0, #0
-    ld r2, nine
-    not r2, r2
-    add r2, r2, #1
-    add r2, r1, r2
+    add r2, r0, #-9
     BRz quit 
-    ld r0, saver 
 
-    ; check if cell is occupied before drawing
-    st r0, saver
     ld r1, cell
     add r1, r1, r0
     ldr r1, r1, #0
     BRp x_player ; the cell is taken, so re-prompt X
-    ld r0, saver
+ 
 
     and r1, r1, #0
     add r1, r1, #1
@@ -62,21 +56,19 @@ o_player
     puts
     jsr getmov
 
-    BRn o_player
     add r1, r0, #0
-    ld r2, nine
-    not r2, r2
-    add r2, r2, #1
-    add r2, r1, r2
+
+    BRn o_player
+
+    add r2, r0, #-9
     BRz quit 
 
     ; check if cell is occupied before drawing
-    st r0, saver
     ld r1, cell
     add r1, r1, r0
     ldr r1, r1, #0
     BRp o_player ; the cell is taken, so re-prompt o
-    ld r0, saver
+ 
 
     and r1, r1, #0
     add r1, r1, #2
@@ -178,7 +170,7 @@ gm_check_q
         add r1, r0, r1
         BRnp gm_invalid 
 
-        add r0, r0, #0
+        and r0, r0, #0
         add r0, r0, #9
         BR gm_done
 
@@ -201,18 +193,22 @@ drawh
         st r7, drawh7
 
         and r3, r3, #0
-        add r3, r3, #7
-drawhmove
-        add r0, r0, r0
-        add r3, r3, #-1
-        BRp drawhmove 
+        add r2, r0, #0
 
+drawh_mult 
+        BRz drawh_done_mult
+        ld r4
+        add r3, r3, r4
+        add r2, r2, #-1
+        BR drawh_mult
+
+drawh_done_mult
         ld r1, drawh_start
-        add r0, r0, r1
-
+        add r0, r1, r3
         ld r1, drawh_white
         and r2, r2, #0
         ld r2, ninety 
+
 drawh_loop
         str r1, r0, #0
         add r0, r0, #1
@@ -240,11 +236,11 @@ onetate .fill #128
 
 drawv
         ; draw a vertical line starting at (x,o) where x is passed in r0
-        st r0, drawh0
-        st r1, drawh1
-        st r2, drawh2
-        st r3, drawh3
-        st r7, drawh7
+        st r0, drawv0
+        st r1, drawv1
+        st r2, drawv2
+        st r3, drawv3
+        st r7, drawv7
 
         ld r1, drawh_start
         add r0, r0, r1
@@ -257,11 +253,11 @@ drawv_loop
         add r2, r2, #-1
         BRp drawv_loop
 
-        ld r0, drawh0
-        ld r1, drawh1
-        ld r2, drawh2
-        ld r3, drawh3
-        ld r7, drawh7
+        ld r0, drawv0
+        ld r1, drawv1
+        ld r2, drawv2
+        ld r3, drawv3
+        ld r7, drawv7
         ret
 
 drawb 
@@ -303,6 +299,11 @@ drawb_done
 
         
 
+drawv0 .blkw #1
+drawv1 .blkw #1
+drawv2 .blkw #1
+drawv3 .blkw #1
+drawv7 .blkw #1
 
 ; variable instantiation 
 drawb_xaddress .fill xA000
