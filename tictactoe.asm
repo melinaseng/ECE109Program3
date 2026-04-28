@@ -235,6 +235,7 @@ drawh7 .blkw #1
 drawh_start .fill xc000
 drawh_white .fill x7FFF
 ninety .fill #90
+onetate .fill #128 
 
 
 drawv
@@ -319,7 +320,6 @@ drawb_address
 sixty .fill #60
 thirty .fill #30
 nine .fill #9
-onetate .fill #128
 cell .fill x4010
 saver .blkw #1 
 saver1 .blkw #1
