@@ -3,114 +3,6 @@
 START
     ; clear 
 
-CHECK
-    ; check for input to see if it is 0-8
-    getc 
-
-    ; zero check 
-    ld r1, zero
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK0
-
-    ; one check
-    ld r1, one
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK1
-
-    ; two check
-    ld r1, two
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK2
-
-    ; three check
-    ld r1, three
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK3
-
-    ; four check
-    ld r1, four
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK4
-
-    ; five check
-    ld r1, five
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK5
-
-    ; six check
-    ld r1, six
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK6
-
-    ; seven check
-    ld r1, seven
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK7
-
-    ; eight check
-    ld r1, eight
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK8
-
-    ; nine check
-    ld r1, nine
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    BRz BLOCK9
-
-    ; q check
-    ld r1, qinput
-    not r1, r1
-    add r1, r1, #1
-    add r1, r0, r1 
-    add r0, r0, #9
-    BRz QUIT
-
-    ; illegal command return -1 in r0
-    add r0, r0, #-1
-
-    BR CHECK 
-
-BLOCK1
-    puts
-    lea r2, newline
-    puts 
-
-BLOCK2
-
-BLOCK3
-
-BLOCK4
-
-BLOCK5
-
-BLOCK6
-
-BLOCK7
-
-BLOCK8
-
-BLOCK9
-
 QUIT 
     HALT
 
@@ -170,9 +62,48 @@ num_px  .fill 15872
 
 getmov
         ; used to get the next move from a player
-        getc 
+        st r1, saver1 
+        st r2, saver2
+
+        getc ; get input from keyboard 
+        out ; echo 
+
+        ; echo newline, save input, restore input 
+        st r0, gm_input
+        lea r0, newline
         puts
-        BR check 
+        ld r0, gm_input 
+
+        ; check for 0 through 8
+        ld r1, gm_ascii
+        not r1, r1
+        add r1, r1, #1
+        add r2, r0, r1
+        BRn gm_check_q
+
+        add r1, r2, #-9
+        BRzp gm_check_q
+
+        add r0, r2, #0
+        BR gm_done 
+
+gm_check_q
+        ld r0, gm_input
+        ; check if the input is q
+        ld r1, gm_q
+        not r1, r1
+        add r1, r1, #1
+        add r1, r0, r1
+        BRnp gm_invalid 
+
+        add r0, r0, #0
+        add r0, r0, #9
+        BR gm_done
+
+gm_illegal
+
+
+        ret 
 
 drawh 
         ; draw a horizontal line starting at (0,y) where y is passed in r0
@@ -185,8 +116,13 @@ drawb
 
 
 ; variable instantiation 
+saver1 .blkw #1
+saver2 .blkw #1
+gm_input .blkw #1
+gm_ascii .fill x0030 
+gm_q .fill x0071
 white_horiz .fill x7FFF
-newline .stringz "/n" 
+newline .stringz "\n" 
 xmove .stringz "X move: "
 omove .stringz "O move: "
 
