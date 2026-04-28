@@ -33,6 +33,43 @@ clear_cells
     add r2, r2, #-1
     BRp clear_cells
 
+x_player
+    lea r0, xmove
+    puts
+    jsr getmov
+
+    BRn x_player
+
+    add r1, r0, #0
+    ld r2, nine
+    not r2, r2
+    add r2, r2, #1
+    add r2, r1, r2
+    BRz quit 
+
+    add r1, r1, #0
+    add r1, r1, #1
+    jsr drawb
+
+o_player
+    lea r0, omove
+    puts
+    jsr getmov
+
+    BRn o_player
+    add r1, r0, #0
+    ld r2, nine
+    not r2, r2
+    add r2, r2, #1
+    add r2, r1, r2
+    BRz quit 
+
+    add r1, r1, #0
+    add r1, r1, #1
+    jsr drawb
+
+    BR x_player 
+
 QUIT 
     HALT
 
