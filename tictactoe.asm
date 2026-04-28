@@ -45,7 +45,15 @@ x_player
     BRz quit 
     ld r0, saver 
 
-    add r1, r1, #0
+    ; check if cell is occupied before drawing
+    st r0, saver
+    ld r1, cell
+    add r1, r1, r0
+    ldr r1, r1, #0
+    BRp x_player ; the cell is taken, so re-prompt X
+    ld r0, saver
+
+    and r1, r1, #0
     add r1, r1, #1
     jsr drawb
 
@@ -62,7 +70,15 @@ o_player
     add r2, r1, r2
     BRz quit 
 
-    add r1, r1, #0
+    ; check if cell is occupied before drawing
+    st r0, saver
+    ld r1, cell
+    add r1, r1, r0
+    ldr r1, r1, #0
+    BRp o_player ; the cell is taken, so re-prompt o
+    ld r0, saver
+
+    and r1, r1, #0
     add r1, r1, #2
     jsr drawb
 
