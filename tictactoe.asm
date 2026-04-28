@@ -197,7 +197,7 @@ drawh
 
 drawh_mult 
         BRz drawh_done_mult
-        ld r4
+        ld r4, onetate
         add r3, r3, r4
         add r2, r2, #-1
         BR drawh_mult
