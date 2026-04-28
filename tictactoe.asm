@@ -5,21 +5,17 @@ START
     jsr clear
 
     ; draw the vertical lines 
-    and r0, r0, #0
-    add r0, r0, #30
+    ld r0, thirty
     jsr drawv
 
-    and r0, r0, #0
-    add r0, r0, #60
+    ld r0, sixty
     jsr drawv
 
     ; draw the horizontal lines
-    and r0, r0, #0
-    add r0, r0, #30
+    ld r0, thirty
     jsr drawh
 
-    and r0, r0, #0
-    add r0, r0, #60
+    ld r0, sixty
     jsr drawh
 
     ; cell stuff
@@ -187,6 +183,8 @@ drawb
 
 
 ; variable instantiation 
+sixty .fill #60
+thirty .fill #30
 nine .fill #9
 cell .fill x4010
 saver1 .blkw #1
