@@ -37,13 +37,13 @@ x_player
     BRn x_player
 
     st r0, saver 
-    ; add r1, r0, #0
+    add r1, r0, #0
     ld r2, nine
     not r2, r2
     add r2, r2, #1
     add r2, r1, r2
     BRz quit 
-    ld r2, saver 
+    ld r0, saver 
 
     add r1, r1, #0
     add r1, r1, #1
@@ -63,7 +63,7 @@ o_player
     BRz quit 
 
     add r1, r1, #0
-    add r1, r1, #1
+    add r1, r1, #2
     jsr drawb
 
     BR x_player 
@@ -260,7 +260,7 @@ drawb
         ldr r3, r2, #0
         BRp drawb_done
 
-        add r3, r3, #0
+        and r3, r3, #0
         add r3, r3, #1
         str r3, r2, #0
 
