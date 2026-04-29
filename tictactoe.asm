@@ -198,6 +198,9 @@ drawh
         st r1, drawh1
         st r2, drawh2
         st r3, drawh3
+        st r4, drawh4
+        st r5, drawh5
+        st r6, drawh6
         st r7, drawh7
 
         and r3, r3, #0
@@ -227,6 +230,9 @@ drawh_loop
         ld r1, drawh1
         ld r2, drawh2
         ld r3, drawh3
+        ld r4, drawh4
+        ld r5, drawh5
+        ld r6, drawh6
         ld r7, drawh7
         ret
 
@@ -235,6 +241,9 @@ drawh0 .blkw #1
 drawh1 .blkw #1
 drawh2 .blkw #1
 drawh3 .blkw #1
+drawh4 .blkw #1
+drawh5 .blkw #1
+drawh6 .blkw #1
 drawh7 .blkw #1
 drawh_start .fill xc000
 drawh_white .fill x7FFF
@@ -274,6 +283,9 @@ drawb
         st r1, drawh1
         st r2, drawh2
         st r3, drawh3
+        st r4, drawh4
+        st r5, drawh5
+        st r6, drawh6
         st r7, drawh7
 
         ld r2, cell
@@ -286,13 +298,14 @@ drawb
         str r3, r2, #0
 
         lea r2, drawb_address
-        add r2, r2, r0
-        ldr r0, r2, #0
-
-        ld r2, drawb_xaddress
-        add r3, r1, #-1
+        add r3, r1, #-2
+        BRz use_o 
+        ld r2, drawb_xaddress 
         BRz drawb_draw
-        ld r2, drawb_oaddress
+
+use_o
+        ld r2, drawb_oaddress 
+
 drawb_draw
         add r1, r2, #0
         jsr draw
@@ -302,6 +315,9 @@ drawb_done
         ld r1, drawh1
         ld r2, drawh2
         ld r3, drawh3
+        ld r4, drawh4
+        ld r5, drawh5
+        ld r6, drawh6
         ld r7, drawh7
         ret
 
@@ -312,6 +328,7 @@ drawv1 .blkw #1
 drawv2 .blkw #1
 drawv3 .blkw #1
 drawv7 .blkw #1
+drawh6 .blkw #1
 
 ; variable instantiation 
 drawb_xaddress .fill xA000
