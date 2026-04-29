@@ -137,6 +137,10 @@ getmov
         ; used to get the next move from a player
         st r1, saver1 
         st r2, saver2
+        st r3, saver3
+        st r4, saver4
+        st r5, saver5
+        st r6, saver6
         st r7, saver7
 
         getc ; get input from keyboard 
@@ -181,6 +185,10 @@ gm_invalid
 gm_done
         ld r1, saver1
         ld r2, saver2
+        ld r3, saver3
+        ld r4, saver4
+        ld r5, saver5
+        ld r6, saver6
         ld r7, saver7
         ret 
 
@@ -325,6 +333,10 @@ cell .fill x4010
 saver .blkw #1 
 saver1 .blkw #1
 saver2 .blkw #1
+saver3 .blkw #1
+saver4 .blkw #1
+saver5 .blkw #1
+saver6 .blkw #1
 saver7 .blkw #1 
 gm_input .blkw #1
 gm_ascii .fill x0030 ; 0 value 
